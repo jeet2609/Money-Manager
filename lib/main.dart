@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:money_manager/bloc/cubit/add_transaction_cubit.dart';
 import 'package:money_manager/bloc/transaction_bloc.dart';
 import 'package:money_manager/pages/splash.dart';
 import 'package:money_manager/theme.dart';
@@ -19,8 +20,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<TransactionBloc>(
-      create: (context) => TransactionBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<TransactionBloc>(
+          create: (context) => TransactionBloc(),
+        ),
+        BlocProvider<AddTransactionCubit>(
+          create: (context) => AddTransactionCubit(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Money Manager',

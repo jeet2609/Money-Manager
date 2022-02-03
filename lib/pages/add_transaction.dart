@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:money_manager/bloc/cubit/add_transaction_cubit.dart';
 
 import 'package:money_manager/bloc/transaction_bloc.dart';
 import 'package:money_manager/controller/db_helper.dart';
@@ -65,22 +67,22 @@ class _AddTransactionState extends State<AddTransaction> {
         toolbarHeight: 0.0,
       ),
       //
-      backgroundColor: Color(
+      backgroundColor: const Color(
         0xffe2e7ef,
       ),
       //
       body: ListView(
-        padding: EdgeInsets.all(
+        padding: const EdgeInsets.all(
           12.0,
         ),
         //
         children: [
           //
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
           //
-          Text(
+          const Text(
             "Add Transaction",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -89,14 +91,14 @@ class _AddTransactionState extends State<AddTransaction> {
             ),
           ),
           //
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
           //
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(
+                padding: const EdgeInsets.all(
                   12.0,
                 ),
                 decoration: BoxDecoration(
@@ -105,24 +107,24 @@ class _AddTransactionState extends State<AddTransaction> {
                     16.0,
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.attach_money,
                   size: 24.0,
                   color: Colors.white,
                 ),
               ),
               //
-              SizedBox(
+              const SizedBox(
                 width: 12.0,
               ),
               //
               Expanded(
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "0",
                     border: InputBorder.none,
                   ),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24.0,
                   ),
                   onChanged: (value) {
@@ -146,14 +148,14 @@ class _AddTransactionState extends State<AddTransaction> {
             ],
           ),
           //
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
           //
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(
+                padding: const EdgeInsets.all(
                   12.0,
                 ),
                 decoration: BoxDecoration(
@@ -162,24 +164,24 @@ class _AddTransactionState extends State<AddTransaction> {
                     16.0,
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.description,
                   size: 24.0,
                   color: Colors.white,
                 ),
               ),
               //
-              SizedBox(
+              const SizedBox(
                 width: 12.0,
               ),
               //
               Expanded(
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "description on Transaction",
                     border: InputBorder.none,
                   ),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24.0,
                   ),
                   onChanged: (value) {
@@ -190,82 +192,82 @@ class _AddTransactionState extends State<AddTransaction> {
             ],
           ),
           //
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
           //
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(
-                  12.0,
-                ),
-                decoration: BoxDecoration(
-                  color: Static.PrimaryColor,
-                  borderRadius: BorderRadius.circular(
-                    16.0,
+          BlocBuilder<AddTransactionCubit, AddTransactionState>(
+            builder: (context, state) {
+              return Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(
+                      12.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Static.PrimaryColor,
+                      borderRadius: BorderRadius.circular(
+                        16.0,
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.moving_sharp,
+                      size: 24.0,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                child: Icon(
-                  Icons.moving_sharp,
-                  size: 24.0,
-                  color: Colors.white,
-                ),
-              ),
-              //
-              SizedBox(
-                width: 12.0,
-              ),
-              //
-              ChoiceChip(
-                label: Text(
-                  "Income",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: type == "Income" ? Colors.white : Colors.black,
+                  //
+                  const SizedBox(
+                    width: 12.0,
                   ),
-                ),
-                selectedColor: Static.PrimaryColor,
-                selected: type == "Income" ? true : false,
-                onSelected: (value) {
-                  if (value) {
-                    setState(
-                      () {
-                        type = "Income";
-                      },
-                    );
-                  }
-                },
-              ),
-              //
-              SizedBox(
-                width: 12.0,
-              ),
-              //
-              ChoiceChip(
-                label: Text(
-                  "Expense",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: type == "Expense" ? Colors.white : Colors.black,
+                  //
+                  ChoiceChip(
+                    label: Text(
+                      "Income",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: state.type == "Income"
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
+                    selected: state.type == "Income" ? true : false,
+                    selectedColor: Static.PrimaryColor,
+                    onSelected: (value) {
+                      if (value) {
+                        context.read<AddTransactionCubit>().incomeState();
+                      }
+                    },
                   ),
-                ),
-                selectedColor: Static.PrimaryColor,
-                selected: type == "Expense" ? true : false,
-                onSelected: (value) {
-                  if (value) {
-                    setState(
-                      () {
-                        type = "Expense";
-                      },
-                    );
-                  }
-                },
-              ),
-            ],
+                  //
+                  const SizedBox(
+                    width: 12.0,
+                  ),
+                  //
+                  ChoiceChip(
+                    label: Text(
+                      "Expense",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: state.type == "Expense"
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
+                    selected: state.type == "Expense" ? true : false,
+                    selectedColor: Static.PrimaryColor,
+                    onSelected: (value) {
+                      if (value) {
+                        context.read<AddTransactionCubit>().expenseState();
+                      }
+                    },
+                  ),
+                ],
+              );
+            },
           ),
           //
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
           //
@@ -283,7 +285,7 @@ class _AddTransactionState extends State<AddTransaction> {
               child: Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(
+                    padding: const EdgeInsets.all(
                       12.0,
                     ),
                     decoration: BoxDecoration(
@@ -292,20 +294,20 @@ class _AddTransactionState extends State<AddTransaction> {
                         16.0,
                       ),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.date_range,
                       size: 24.0,
                       color: Colors.white,
                     ),
                   ),
                   //
-                  SizedBox(
+                  const SizedBox(
                     width: 12.0,
                   ),
                   //
                   Text(
                     "${selectedDate.day} ${months[selectedDate.month - 1]} ${selectedDate.year}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w600,
                     ),
@@ -315,46 +317,54 @@ class _AddTransactionState extends State<AddTransaction> {
             ),
           ),
           //
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
           //
-          SizedBox(
-            height: 50.0,
-            child: ElevatedButton(
-              onPressed: () async {
-                if (amount.isNotEmpty && description.isNotEmpty) {
-                  DbHelper dbHelper = DbHelper();
-                  await dbHelper.addData(
-                      int.parse(amount), description, type, selectedDate);
-                  context.read<TransactionBloc>().add(LoadDataEvent());
-                  Navigator.of(context).pop();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        "Please Select all Fields",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20.0,
+          BlocBuilder<AddTransactionCubit, AddTransactionState>(
+            builder: (context, state) {
+              return SizedBox(
+                height: 50.0,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (amount.isNotEmpty && description.isNotEmpty) {
+                      DbHelper dbHelper = DbHelper();
+                      await dbHelper.addData(
+                        int.parse(amount),
+                        description,
+                        state.type,
+                        selectedDate,
+                      );
+                      context.read<TransactionBloc>().add(LoadDataEvent());
+                      Navigator.of(context).pop();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            "Please Select all Fields",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          backgroundColor: Colors.blue,
+                          behavior: SnackBarBehavior.floating,
+                          shape: StadiumBorder(),
                         ),
-                      ),
-                      backgroundColor: Colors.blue,
-                      behavior: SnackBarBehavior.floating,
-                      shape: StadiumBorder(),
+                      );
+                      print("Not All Values Provided");
+                    }
+                  },
+                  child: const Text(
+                    "Add",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600,
                     ),
-                  );
-                  print("Not All Values Provided");
-                }
-              },
-              child: Text(
-                "Add",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),

@@ -12,8 +12,14 @@ class TransactionLoadingState extends TransactionState {}
 
 class TransactionLoadedState extends TransactionState {
   final List<TransactionModel> data;
-  TransactionLoadedState(this.data);
+
+  final int totalBalance;
+  final int totalIncome;
+  final int totalExpense;
+  final List<FlSpot> dataSet;
+
+  TransactionLoadedState({required this.dataSet, required this.data, required this.totalBalance, required this.totalIncome, required this.totalExpense});
   
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [data, totalBalance, totalExpense, totalIncome];
 }

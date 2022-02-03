@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_manager/bloc/cubit/add_transaction_cubit.dart';
 import 'package:money_manager/bloc/transaction_bloc.dart';
-import 'package:money_manager/pages/splash.dart';
+import 'package:money_manager/pages/splash_page.dart';
 import 'package:money_manager/theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

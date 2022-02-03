@@ -17,8 +17,6 @@ class AddTransaction extends StatefulWidget {
 }
 
 class _AddTransactionState extends State<AddTransaction> {
-  //
-
   String amount = "";
   String description = "";
   String type = "Income";
@@ -39,7 +37,6 @@ class _AddTransactionState extends State<AddTransaction> {
     "Dec",
   ];
 
-  //
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -94,7 +91,6 @@ class _AddTransactionState extends State<AddTransaction> {
           const SizedBox(
             height: 20.0,
           ),
-          //
           Row(
             children: [
               Container(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:money_manager/bloc/transaction_bloc.dart';
 import 'package:money_manager/controller/db_helper.dart';
 import 'package:provider/src/provider.dart';
@@ -15,8 +14,6 @@ class AddTransaction extends StatefulWidget {
 }
 
 class _AddTransactionState extends State<AddTransaction> {
-  //
-
   String amount = "";
   String description = "";
   String type = "Income";
@@ -37,7 +34,6 @@ class _AddTransactionState extends State<AddTransaction> {
     "Dec",
   ];
 
-  //
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -65,22 +61,15 @@ class _AddTransactionState extends State<AddTransaction> {
         toolbarHeight: 0.0,
       ),
       //
-      backgroundColor: Color(
+      backgroundColor: const Color(
         0xffe2e7ef,
       ),
       //
       body: ListView(
-        padding: EdgeInsets.all(
-          12.0,
-        ),
-        //
+        padding: const EdgeInsets.all(12.0),
         children: [
-          //
-          SizedBox(
-            height: 20.0,
-          ),
-          //
-          Text(
+          const SizedBox(height: 20.0),
+          const Text(
             "Add Transaction",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -88,41 +77,37 @@ class _AddTransactionState extends State<AddTransaction> {
               fontWeight: FontWeight.w700,
             ),
           ),
-          //
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
-          //
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(
-                  12.0,
-                ),
+                padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
                   color: Static.PrimaryColor,
                   borderRadius: BorderRadius.circular(
                     16.0,
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.attach_money,
                   size: 24.0,
                   color: Colors.white,
                 ),
               ),
               //
-              SizedBox(
+              const SizedBox(
                 width: 12.0,
               ),
               //
               Expanded(
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "0",
                     border: InputBorder.none,
                   ),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24.0,
                   ),
                   onChanged: (value) {
@@ -146,40 +131,34 @@ class _AddTransactionState extends State<AddTransaction> {
             ],
           ),
           //
-          SizedBox(
-            height: 20.0,
-          ),
+          const SizedBox(height: 20.0),
           //
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(
-                  12.0,
-                ),
+                padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
                   color: Static.PrimaryColor,
                   borderRadius: BorderRadius.circular(
                     16.0,
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.description,
                   size: 24.0,
                   color: Colors.white,
                 ),
               ),
               //
-              SizedBox(
-                width: 12.0,
-              ),
+              const SizedBox(width: 12.0),
               //
               Expanded(
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "description on Transaction",
                     border: InputBorder.none,
                   ),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24.0,
                   ),
                   onChanged: (value) {
@@ -190,32 +169,26 @@ class _AddTransactionState extends State<AddTransaction> {
             ],
           ),
           //
-          SizedBox(
-            height: 20.0,
-          ),
+          const SizedBox(height: 20.0),
           //
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(
-                  12.0,
-                ),
+                padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
                   color: Static.PrimaryColor,
                   borderRadius: BorderRadius.circular(
                     16.0,
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.moving_sharp,
                   size: 24.0,
                   color: Colors.white,
                 ),
               ),
               //
-              SizedBox(
-                width: 12.0,
-              ),
+              const SizedBox(width: 12.0),
               //
               ChoiceChip(
                 label: Text(
@@ -238,9 +211,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 },
               ),
               //
-              SizedBox(
-                width: 12.0,
-              ),
+              const SizedBox(width: 12.0),
               //
               ChoiceChip(
                 label: Text(
@@ -265,9 +236,7 @@ class _AddTransactionState extends State<AddTransaction> {
             ],
           ),
           //
-          SizedBox(
-            height: 20.0,
-          ),
+          const SizedBox(height: 20.0),
           //
           SizedBox(
             height: 50.0,
@@ -283,29 +252,27 @@ class _AddTransactionState extends State<AddTransaction> {
               child: Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(
-                      12.0,
-                    ),
+                    padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
                       color: Static.PrimaryColor,
                       borderRadius: BorderRadius.circular(
                         16.0,
                       ),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.date_range,
                       size: 24.0,
                       color: Colors.white,
                     ),
                   ),
                   //
-                  SizedBox(
+                  const SizedBox(
                     width: 12.0,
                   ),
                   //
                   Text(
                     "${selectedDate.day} ${months[selectedDate.month - 1]} ${selectedDate.year}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w600,
                     ),
@@ -315,7 +282,7 @@ class _AddTransactionState extends State<AddTransaction> {
             ),
           ),
           //
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
           //
@@ -331,8 +298,8 @@ class _AddTransactionState extends State<AddTransaction> {
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
+                    const SnackBar(
+                      content: Text(
                         "Please Select all Fields",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -347,7 +314,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   print("Not All Values Provided");
                 }
               },
-              child: Text(
+              child: const Text(
                 "Add",
                 style: TextStyle(
                   fontSize: 20.0,

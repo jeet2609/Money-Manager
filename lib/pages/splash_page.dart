@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_manager/controller/db_helper.dart';
-import 'package:money_manager/pages/add_name.dart';
+import 'package:money_manager/pages/add_name_page.dart';
 import 'package:money_manager/pages/home_page.dart';
 
 class Splash extends StatefulWidget {

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:money_manager/modals/transaction_modal.dart';
@@ -10,10 +11,16 @@ part 'transaction_state.dart';
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   Box box = Hive.box("money");
 
+  late List<TransactionModel> data;
+  var totalBalance = 0;
+  var totalIncome = 0;
+  var totalExpense = 0;
+  DateTime today = DateTime.now();
+  List<FlSpot> dataSet = [];
+
+
   TransactionBloc() : super(TransactionInitialState()) {
-    on<TransactionEvent>(
-      (event, emit) {},
-    );
+    on<TransactionEvent>((event, emit) {});
     on<LoadDataEvent>(_loadData);
   }
 
@@ -22,10 +29,11 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     emit(TransactionLoadingState());
     print("data loadng");
 
-    List<TransactionModel> data = await _fetch();
+    data = await _fetch();
     print("data Loaded");
-
-    emit(TransactionLoadedState(data));
+    getTotalBalance(data);
+    getPlotPoints(data);
+    emit(TransactionLoadedState(dataSet: dataSet, data: data, totalBalance: totalBalance, totalExpense: totalExpense, totalIncome: totalIncome));
   }
 
   Future<List<TransactionModel>> _fetch() async {
@@ -53,4 +61,92 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       return item;
     }
   }
+
+  getTotalBalance(List<TransactionModel> entireData) {
+    print('getTotalBalance called');
+    totalBalance = 0;
+    totalIncome = 0;
+    totalExpense = 0;
+
+    for (TransactionModel data in entireData) {
+      if (data.date.month == today.month) {
+        if (data.type == "Income") {
+          totalBalance += data.amount;
+          totalIncome += data.amount;
+        } else {
+          totalBalance -= data.amount;
+          totalExpense += data.amount;
+        }
+      }
+    }
+  }
+  List<FlSpot> getPlotPoints(List<TransactionModel> entireData) {
+    List tempDataSet = [];
+    dataSet = [];
+
+    for (TransactionModel data in entireData) {
+      if (data.date.month == today.month && data.type == "Expense") {
+        tempDataSet.add(data);
+      }
+    }
+
+    tempDataSet.sort((a, b) => a.date.day - b.date.day);
+
+    // remove duplicate data (need to optimise)
+    if (tempDataSet.length > 1) {
+      int currDataIndex = tempDataSet.length - 1;
+      int i = tempDataSet.length - 2;
+
+      while (i >= 0) {
+        if (tempDataSet[currDataIndex].date.day == tempDataSet[i].date.day) {
+          var amount = tempDataSet[currDataIndex].amount;
+
+          while (i >= 0 &&
+              tempDataSet[currDataIndex].date.day == tempDataSet[i].date.day) {
+            amount += tempDataSet[i].amount;
+            i--;
+          }
+
+          dataSet.add(
+            FlSpot(
+              tempDataSet[currDataIndex].date.day.toDouble(),
+              amount.toDouble(),
+            ),
+          );
+
+          currDataIndex = i;
+          i = currDataIndex - 1;
+        } else {
+          dataSet.add(
+            FlSpot(
+              tempDataSet[currDataIndex].date.day.toDouble(),
+              tempDataSet[currDataIndex].amount.toDouble(),
+            ),
+          );
+
+          currDataIndex--;
+          i--;
+        }
+      }
+
+      if (currDataIndex == 0) {
+        dataSet.add(
+          FlSpot(
+            tempDataSet[0].date.day.toDouble(),
+            tempDataSet[0].amount.toDouble(),
+          ),
+        );
+      }
+    } else if (tempDataSet.length == 1) {
+      dataSet.add(
+        FlSpot(
+          tempDataSet[0].date.day.toDouble(),
+          tempDataSet[0].amount.toDouble(),
+        ),
+      );
+    }
+
+    return dataSet;
+  }
+
 }
